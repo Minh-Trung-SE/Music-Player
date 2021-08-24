@@ -11,12 +11,14 @@ const currentProgressBar = $('#current-progress')
 const btnNext = $('.btn-next')
 const btnPrev = $('.btn-prev')
 const btnRandom= $('.btn-random')
-
+const repeatBtn = $(".btn-repeat")
+const playlist = $(".playlist")
 
 const app = {
     currentIndex : 0,
     isPlay : false,
     isRandom : false,
+    isRepeat : false,
     songs : [
         {
             name: 'Rồi Tới Luôn Remix',
@@ -102,8 +104,11 @@ const app = {
         //Handle CD Image
         document.onscroll = function(){
             const scrollTop = document.documentElement.scrollTop || window.scrollY
-            const newCdWidth = cdWidth - scrollTop
+            console.log(scrollTop)
+            let newCdWidth = cdWidth - scrollTop
+            newCdWidth = newCdWidth < 0 ? 0 : newCdWidth 
             cd.style.width = newCdWidth > 0 ? newCdWidth + 'px' : 0
+            // $('.playlist').style.marginTop = 408 - (200 - newCdWidth) + 'px'
         }
 
         //Handle play track event 
@@ -169,6 +174,17 @@ const app = {
         btnRandom.onclick = function(){
             _this.isRandom = !_this.isRandom
             btnRandom.classList.toggle('active', _this.isRandom)
+        }
+        
+        //Handler auto next
+        audio.onended = function(){
+            _this.isRepeat ? audio.play() : btnNext.onclick()
+        }
+
+        //Handler random
+        repeatBtn.onclick = function(){
+            _this.isRepeat = !_this.isRepeat
+            repeatBtn.classList.toggle('active', _this.isRepeat)
         }
     },
 
