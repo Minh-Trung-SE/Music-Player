@@ -117,12 +117,26 @@
   }
 
   .progress-container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .progress-bar{
     position: relative;
     width: 100%;
     height: 6px;
     overflow: hidden;
     display: block;
     background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .audio-time{
+    min-width: 40px; 
+    font-size: 11px;
+    color: #4169e1;;
+    font-weight: 600;
+    text-align: center;
   }
 
   .progress-container:hover{
@@ -136,7 +150,7 @@
     top: 0;
     appearance: none;
     height: 100%;
-    background-color: royalblue;
+    background-color: #4169e1;
   }
 
   .progress {

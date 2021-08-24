@@ -13,12 +13,15 @@ const btnPrev = $('.btn-prev')
 const btnRandom= $('.btn-random')
 const repeatBtn = $(".btn-repeat")
 const playlist = $(".playlist")
+const currentAudioTime = $('#audio-curent-time')
+const durationAudioTime = $('#audio-duration-time')
 
 const app = {
     currentIndex : 0,
     isPlay : false,
     isRandom : false,
     isRepeat : false,
+    isRenderTime : false,
     songs : [
         {
             name: 'Rồi Tới Luôn Remix',
@@ -109,12 +112,11 @@ const app = {
             cd.style.width = newCdWidth > 0 ? newCdWidth + 'px' : 0
             // $('.playlist').style.marginTop = 408 - (200 - newCdWidth) + 'px'
         }
-
+        
         //Handle UI while audio Play
         audio.onplay = function(){
             _this.isPlay = true
             player.classList.add('playing')
-            console.log("Playing")
             cdThumbAnimate.play()
         }
         
@@ -144,8 +146,18 @@ const app = {
         //Handle progessbar 
         audio.ontimeupdate = function(){
             if (audio.duration){
+                let audioCurrentime = _this.renderTime(audio.currentTime)
                 let progessPercent = (audio.currentTime / audio.duration * 100).toFixed(2)
                 currentProgressBar.style.width = `${progessPercent}%`
+                currentAudioTime.innerHTML = audioCurrentime
+            }
+
+            if(!_this.isRenderTime){
+                let audioDuration = _this.renderTime(audio.duration)
+                if(audioDuration){
+                    durationAudioTime.innerHTML = _this.renderTime(audio.duration)
+                    _this.isRenderTime = true
+                }
             }
         }
 
@@ -193,9 +205,23 @@ const app = {
         heading.textContent = this.currentSong.name
         cdThumb.style.backgroundImage = `url('${this.currentSong.imageUrl}')`
         audio.src = this.currentSong.srcAudio;
-        audio.pause()
         //Add active style for current play song
         $(`.song[data-index='${this.currentIndex}']`).classList.add('active')
+        this.isRenderTime = false
+    },
+
+    //Render audio time 
+    renderTime : function(timeInput){
+        if(timeInput){
+            let hours = (timeInput / 3600).toFixed(0)
+            timeInput -= hours * 3600
+            let minutes = Math.floor((timeInput / 60)).toFixed(0)
+            timeInput -= minutes * 60
+            let seconds = timeInput.toFixed(0)
+            return `${hours > 0 ? hours + ':': ''}` + `${minutes > 0 ? minutes + ':' : ''}` + seconds  
+        }else{
+            return NaN
+        }
     },
 
     nextSong: function(){
