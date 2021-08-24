@@ -74,9 +74,9 @@ const app = {
     },
 
     render: function() {
-        const htmls = this.songs.map(song => {
+        const htmls = this.songs.map((song, index) => {
             return `
-            <div class="song">
+            <div class="song" data-index="${index}">
                 <div class="thumb" style="background-image: url('${song.imageUrl}')">
                 </div>
                 <div class="body">
@@ -104,11 +104,25 @@ const app = {
         //Handle CD Image
         document.onscroll = function(){
             const scrollTop = document.documentElement.scrollTop || window.scrollY
-            console.log(scrollTop)
             let newCdWidth = cdWidth - scrollTop
             newCdWidth = newCdWidth < 0 ? 0 : newCdWidth 
             cd.style.width = newCdWidth > 0 ? newCdWidth + 'px' : 0
             // $('.playlist').style.marginTop = 408 - (200 - newCdWidth) + 'px'
+        }
+
+        //Handle UI while audio Play
+        audio.onplay = function(){
+            _this.isPlay = true
+            player.classList.add('playing')
+            console.log("Playing")
+            cdThumbAnimate.play()
+        }
+        
+        //Handle UI while audio Pause
+        audio.onpause = function(){
+            _this.isPlay = false
+            player.classList.remove('playing')
+            cdThumbAnimate.pause()
         }
 
         //Handle play track event 
@@ -119,39 +133,25 @@ const app = {
             }else{
                 audio.play()
             }
-            
-            //Playing
-            audio.onplay = function(){
-                _this.isPlay = true
-                player.classList.add('playing')
-                cdThumbAnimate.play()
-            }
-            
-            //Pause
-            audio.onpause = function(){
-                _this.isPlay = false
-                player.classList.remove('playing')
-                cdThumbAnimate.pause()
-            }
+        }
 
-            //Handle seek song
-            progess.onclick = function(e){
-                let percentSeek = (e.offsetX / e.target.offsetWidth).toFixed(3);
-                audio.currentTime = percentSeek * audio.duration
-            }
+        //Handle seek song
+        progess.onclick = function(e){
+            let percentSeek = (e.offsetX / e.target.offsetWidth).toFixed(3);
+            audio.currentTime = percentSeek * audio.duration
+        }
 
-            //Progess play
-            audio.ontimeupdate = function(){
-                if (audio.duration){
-                    let progessPercent = (audio.currentTime / audio.duration * 100).toFixed(2)
-                    currentProgressBar.style.width = `${progessPercent}%`
-                }
+        //Handle progessbar 
+        audio.ontimeupdate = function(){
+            if (audio.duration){
+                let progessPercent = (audio.currentTime / audio.duration * 100).toFixed(2)
+                currentProgressBar.style.width = `${progessPercent}%`
             }
-
         }
 
         //Handle next
         btnNext.onclick = function(){
+            $(`.song[data-index='${_this.currentIndex}']`).classList.remove('active')
             if(_this.isRandom){
                 _this.playRandom()
             }else{
@@ -162,6 +162,7 @@ const app = {
 
         //Handle next
         btnPrev.onclick = function(){
+            $(`.song[data-index='${_this.currentIndex}']`).classList.remove('active')
             if(_this.isRandom){
                 _this.playRandom()
             }else{
@@ -192,7 +193,9 @@ const app = {
         heading.textContent = this.currentSong.name
         cdThumb.style.backgroundImage = `url('${this.currentSong.imageUrl}')`
         audio.src = this.currentSong.srcAudio;
-        audio.currentTime = 0
+        audio.pause()
+        //Add active style for current play song
+        $(`.song[data-index='${this.currentIndex}']`).classList.add('active')
     },
 
     nextSong: function(){
