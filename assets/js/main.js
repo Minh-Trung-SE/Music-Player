@@ -64,6 +64,12 @@ const app = {
             singer: 'H2k',
             srcAudio : "https://data3.chiasenhac.com/downloads/2123/2/2122109-b9498ea8/128/Keo%20Bong%20Gon%20-%20H2k_%20TRUNKY.mp3",
             imageUrl: 'https://data.chiasenhac.com/data/cover/129/128830.jpg'
+        },
+        {
+            name: 'Sai Cách Yêu',
+            singer: 'Lê Bảo Bình',
+            srcAudio : "https://data25.chiasenhac.com/download2/2184/2/2183510-10ee8e02/128/Sai%20Cach%20Yeu%20-%20Le%20Bao%20Binh.mp3",
+            imageUrl: 'https://data.chiasenhac.com/data/cover/144/143820.jpg'
         }
     ],
 
@@ -198,6 +204,31 @@ const app = {
         repeatBtn.onclick = function(){
             _this.isRepeat = !_this.isRepeat
             repeatBtn.classList.toggle('active', _this.isRepeat)
+        }
+
+        playlist.onclick = function (e) {
+            const songNode = e.target.closest(".song:not(.active)");
+      
+            if (songNode || e.target.closest(".option")) {
+              // Xử lý khi click vào song
+              // Handle when clicking on the song
+              if (songNode) {
+                let currentSongActive = $(`.song[data-index='${_this.currentIndex}']`)
+                console.log(currentSongActive)
+                currentSongActive.classList.remove('active')
+                _this.currentIndex = Number(songNode.dataset.index);
+                _this.loadCurrentSong();
+                songNode.classList.add('active')
+                console.log(songNode)
+                audio.play();
+              }
+      
+              // Xử lý khi click vào song option
+              // Handle when clicking on the song option
+              if (e.target.closest(".option")) {
+              }
+            }
+
         }
     },
 
