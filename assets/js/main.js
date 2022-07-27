@@ -24,51 +24,57 @@ const app = {
     isRenderTime : false,
     songs : [
         {
+            name: 'Ơi Anh Gì Ơi',
+            singer: 'Hana Cẩm Tiên',
+            srcAudio : "https://data.chiasenhac.com/down2/2250/4/2249137-081e5df0/128/Oi%20Anh%20Gi%20Oi%20-%20Hana%20Cam%20Tien.mp3",
+            imageUrl: 'https://data.chiasenhac.com/data/cover/165/164026.jpg'
+        },
+        {
             name: 'Rồi Tới Luôn Remix',
             singer: 'Nal',
-            srcAudio : "https://data25.chiasenhac.com/download2/2186/2/2185729-2656a916/128/Roi%20Toi%20Luon%20Chachacha%20Wedding_%20-%20Nal.mp3",
+            srcAudio : "https://data.chiasenhac.com/down2/2187/4/2186771/128/Roi%20Toi%20Luon%20Remix%20-%20Nal.mp3",
             imageUrl: 'https://data.chiasenhac.com/data/cover/145/144327.jpg'
         },
         {
             name: 'Họ Yêu Ai Mất Rồi',
             singer: 'Doãn Hiếu',
-            srcAudio : 'https://data25.chiasenhac.com/download2/2186/2/2185704-e0d7dc24/128/Ho%20Yeu%20Ai%20Mat%20Roi%20Remix%20-%20Doan%20Hieu.mp3',
+            srcAudio : 'https://data16.chiasenhac.com/downloads/2148/4/2147629-1ed7b112/128/Ho%20Yeu%20Ai%20Mat%20Roi%20-%20Doan%20Hieu_%20B_.mp3',
             imageUrl: 'https://data.chiasenhac.com/data/cover/135/134514.jpg'
         },
         {
             name: 'Tiếng Tơ Lòng (HeineKen x HHD Remix)',
             singer: 'H-Kray; Truzg',
-            srcAudio : "https://data25.chiasenhac.com/download2/2185/2/2184492-42ecf230/128/Tieng%20To%20Long%20HeineKen%20x%20HHD%20Remix_%20-%20H-.mp3",
+            srcAudio : "https://data.chiasenhac.com/down2/2185/4/2184491-0bd4b032/128/Tieng%20To%20Long%20-%20H-Kray_%20Truzg.mp3",
             imageUrl: 'https://data.chiasenhac.com/data/cover/145/144029.jpg'
         },
         {
             name: 'Thê Lương',
             singer: 'Phúc Chinh',
-            srcAudio : "https://data.chiasenhac.com/down2/2159/2/2158703-0506e9cf/128/The%20Luong%20Shin%20Remix_%20-%20Phuc%20Chinh.mp3",
+            srcAudio : "https://data17.chiasenhac.com/downloads/2159/4/2158695-d8adbea8/128/The%20Luong%20-%20Phuc%20Chinh.mp3",
             imageUrl: 'https://data.chiasenhac.com/data/cover/138/137205.jpg'
         },
         {
             name: 'Phận Duyên Lỡ Làng (HHD Remix)',
             singer: 'Phát Huy T4',
-            srcAudio : "https://data.chiasenhac.com/down2/2166/2/2165690-3f3ca9f4/128/Phan%20Duyen%20Lo%20Lang%20HHD%20Remix_%20-%20Phat%20Huy.mp3",
+            srcAudio : "https://data.chiasenhac.com/down2/2166/4/2165688-d1981e76/128/Phan%20Duyen%20Lo%20Lang%20-%20Phat%20Huy%20T4_%20Truzg.mp3",
             imageUrl: 'https://data.chiasenhac.com/data/cover/139/138986.jpg'
         },
         {
             name: 'Duyên Ta Chỉ Đây Thôi',
             singer: 'Phát Huy T4',
-            srcAudio : "https://data25.chiasenhac.com/download2/2181/2/2180479-fae96552/128/Duyen%20Ta%20Chi%20Day%20Thoi%20-%20Phat%20Huy%20T4_%20Tru.mp3",
+            srcAudio : "https://data.chiasenhac.com/down2/2181/4/2180479-fae96552/128/Duyen%20Ta%20Chi%20Day%20Thoi%20-%20Phat%20Huy%20T4_%20Tru.mp3",
             imageUrl: 'https://data.chiasenhac.com/data/cover/143/142925.jpg'
         },
         {
             name: 'Kẹo Bông Gòn',
             singer: 'H2k',
-            srcAudio : "https://data3.chiasenhac.com/downloads/2123/2/2122109-b9498ea8/128/Keo%20Bong%20Gon%20-%20H2k_%20TRUNKY.mp3",
+            srcAudio : "https://data3.chiasenhac.com/downloads/2123/4/2122109-b9498ea8/128/Keo%20Bong%20Gon%20-%20H2k_%20TRUNKY.mp3",
             imageUrl: 'https://data.chiasenhac.com/data/cover/129/128830.jpg'
         },
         {
             name: 'Sai Cách Yêu',
             singer: 'Lê Bảo Bình',
-            srcAudio : "https://data25.chiasenhac.com/download2/2184/2/2183510-10ee8e02/128/Sai%20Cach%20Yeu%20-%20Le%20Bao%20Binh.mp3",
+            srcAudio : "https://data.chiasenhac.com/down2/2184/4/2183510-10ee8e02/128/Sai%20Cach%20Yeu%20-%20Le%20Bao%20Binh.mp3",
             imageUrl: 'https://data.chiasenhac.com/data/cover/144/143820.jpg'
         }
     ],
@@ -214,12 +220,10 @@ const app = {
               // Handle when clicking on the song
               if (songNode) {
                 let currentSongActive = $(`.song[data-index='${_this.currentIndex}']`)
-                console.log(currentSongActive)
                 currentSongActive.classList.remove('active')
                 _this.currentIndex = Number(songNode.dataset.index);
                 _this.loadCurrentSong();
                 songNode.classList.add('active')
-                console.log(songNode)
                 audio.play();
               }
       
